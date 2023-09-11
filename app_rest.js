@@ -1,13 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors'); // improve compatibility with WebGL
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
-// const PORT = 3000;
-const PORT = 8010;
+const PORT = 3000;
 const MAX_MESSAGES = 10000;
 
 let messages = [];
@@ -26,12 +27,12 @@ app.get('/messages', (req, res) => {
 });
 
 app.post('/message', (req, res) => {
-  const { msg, username } = req.body;
-  if (!msg) {
+  const { username, text } = req.body;
+  if (!text) {
     return res.status(400).json({ error: 'Text is required.' });
   }
 
-  messages.push({ msg, username, timestamp: Date.now() });
+  messages.push({ username, text, timestamp: Date.now() });
 
   // If the messages exceed 10k, remove the oldest ones.
   while (messages.length > MAX_MESSAGES) {
