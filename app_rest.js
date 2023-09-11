@@ -6,7 +6,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const PORT = 3000;
+// const PORT = 3000;
+const PORT = 8010;
 const MAX_MESSAGES = 10000;
 
 let messages = [];
